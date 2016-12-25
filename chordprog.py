@@ -2,7 +2,20 @@
 
 # Chord Progression Generator - Dylan Leigh 2016
 
-
+# Can be used as a module (all functionality in Progression class)
+# or run from the command line and will print out something like:
+# ['I', 'ii', 'V', 'vi', 'V', 'I']
+#
+# As a module:
+# [1]: from chordprog import Progression
+# [2]: prog = Progression()
+# [3]: prog.generate()
+# [4]: print prog
+# ['I', 'V', 'vi', 'IV', 'V', 'vi', 'ii', 'V', 'vi', 'IV', 'I']
+# [5]: prog.chords = ['V']   # Create something that ends in V
+# [6]: prog.generate()
+# [7]: print prog
+# ['I', 'vi', 'IV', 'V', 'vi', 'V']
 
 # The Plan:
 #           - We start with the root chord I at the "end" of the
