@@ -63,9 +63,9 @@ class Progression:
    def before_viio(self):
       return random.choice(['I','ii','IV'])
 
-   def generate(self):
+   def generate(self, min_length=2):
       curr = self.chords[0]
-      while len(self.chords) < 2 or curr != 'I':
+      while len(self.chords) < min_length or curr != 'I':
          func = getattr(self, "before_%s" % curr)
          curr = func()
          self.chords.insert(0, curr)
