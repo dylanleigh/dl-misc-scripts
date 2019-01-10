@@ -10,7 +10,9 @@
 # When this option is in effect the sound will be played after
 # a delay of that many seconds.
 #
-# Requires pygame (uses the mixer module to play audio).
+# Requires pygame to play actual sounds (uses the mixer module to play audio).
+# Otherwise it will fall back to sending beeps to the terminal for
+# each event.
 #
 # Some assorted interesting, fun and mundane uses:
 #
@@ -75,15 +77,20 @@
 #          the script?
 
 import os,sys,csv,time,re
-import pygame
+try:
+   import pygame
+except (ImportError):
+    print "Pygame not found, will use terminal beep instead"
+    pygame = False
 
 
 ################################################# globals
 
-debug=True
+debug=False
 
 logFiles = dict()    # logfilepath -> WatchFile object
-soundFiles = dict()  # soundfilepath -> pygame sound object
+if pygame:
+   soundFiles = dict()  # soundfilepath -> pygame sound object
 delayQueue = list()  # tuple (time_t to trigger, soundfile index)
 
 ################################################# classes
@@ -133,13 +140,19 @@ class WatchFile (object):
                      continue;
                   if ("delay" not in options):
                      # play straight away
-                     soundFiles[tup[1]].play()
+                     if pygame:                    # TODO DRY
+                        soundFiles[tup[1]].play()
+                     else:
+                        print ""
                   if ("noecho" not in options):
                      print "%s:%s"%(self.filename,line)
                else:
                   # no options - default
                   print "%s:%s"%(self.filename,line)
-                  soundFiles[tup[1]].play()
+                  if pygame:                    # TODO DRY
+                     soundFiles[tup[1]].play()
+                  else:
+                     print ""
 
       self.fobj.seek(0,os.SEEK_CUR) # XXX: hack to clear internal for loop buffer
       # end finMAtches
@@ -147,7 +160,8 @@ class WatchFile (object):
 
 ################################################# main begins here
 
-pygame.mixer.init()
+if pygame:
+   pygame.mixer.init()
 
 # open config file as commandline argument or exit
 if (len(sys.argv) < 2):
@@ -178,7 +192,7 @@ for row in configcsv:
    # add new regex to new or existing entry
    logFiles[logf].addMatch(regex,sfile,options)
 
-   if (not (sfile in soundFiles)):  # sound file not referenced before
+   if (pygame and not (sfile in soundFiles)):  # sound file not referenced before
       soundFiles[sfile] = pygame.mixer.Sound(sfile)
       soundFiles[sfile].set_volume(0.5) # TODO an option to set volume! 0-1.0
 
@@ -195,5 +209,8 @@ while True:
    for t in delayQueue:
       now = time.time()
       if (t[0]<=now): # time to trigger <= now
-         soundFiles[t[1]].play()
+         if (pygame):                     # TODO DRY
+            soundFiles[t[1]].play()
+         else:
+            print ""
          delayQueue.remove(t) # remove from queue
