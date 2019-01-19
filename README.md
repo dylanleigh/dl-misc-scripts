@@ -8,5 +8,7 @@ Miscellaneous scripts and snippets.
 - dumps.pl                    - FreeBSD 6+ UFS2 Backup Script (deprecated by ZFS)
 - logfx.py                    - Sound effects for log files
 - nvidia-rrd.pl               - Put Nvidia GPU temperature data into an RRD
+- randompw.c                  - Generate a random 8 character password
 - speakstatus.py              - Says time and other info through Espeak
+- timetable.c                 - Show todays classes or plot ASCII timetable
 - vodausage.py                - Generate accurate Vodafone AU Postpaid usage data
