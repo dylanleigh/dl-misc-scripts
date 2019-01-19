@@ -1,11 +1,11 @@
 /* $Id: randompw.c 83 2009-07-14 14:07:52Z dleigh $
  *
  * Generate a 8 character password randomly from alphanumeric
- * characters, using arc4random() as the PRNG. arc4random() should be
- * crypographically random, certainly good enough for this purpose.
+ * characters, or others as specified on CLI.
  *
- * TODO: first character alpha-only (required by some systems)
- *       option to do alphanum + something
+ * Does not print a newline at the end (this is intended to be easily called
+ * from within scripts etc)
+ *
  */
 
 #include <stdlib.h>
@@ -37,7 +37,7 @@ int main(int argc, char ** argv)
    int i = 0;                       // iterator
    int firstAlpha = 0;              // First character alphabetic
    char * validChars = ALPHANUM;    // Character set to use
-   
+
    //parse commandline
    for (i = 1; i < argc; i++)
    {
@@ -62,7 +62,7 @@ int main(int argc, char ** argv)
       // TODO: firstalpha not implemented
    }
 
-   validCharSize = strlen(validChars) - 1;
+   unsigned validCharSize = strlen(validChars) - 1;
    if (validCharSize < 2)
    {
       do_usage();
@@ -71,7 +71,7 @@ int main(int argc, char ** argv)
 
    // generate the password
    for (i = 0; i < PASSLEN; i++)
-      putc(validChars[arc4random() % validCharSize]);
+      putchar(validChars[random() % validCharSize]);
 
    return EXIT_SUCCESS;
 }
