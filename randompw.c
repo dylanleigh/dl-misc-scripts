@@ -11,10 +11,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #define PASSLEN 8
 
-#define NUMONLY "1234567890" // Could do it numerically in this case...
+#define NUMONLY "1234567890"
 #define ALPHAONLY \
    "qwertyuiopQWERYTUIOPasdfghjklASDFGHJKLzxcvbnmZXCVBNM"
 #define ALPHANUM \
@@ -59,15 +60,20 @@ int main(int argc, char ** argv)
       }
 
       if (strcmp(argv[i], "--firstalpha") == 0) firstAlpha = 1;
-      // TODO: firstalpha not implemented
+      // TODO: firstalpha not actually implemented
    }
 
+   // check we have something to put in the password
    unsigned validCharSize = strlen(validChars) - 1;
    if (validCharSize < 2)
    {
       do_usage();
       return EXIT_FAILURE;
    }
+
+   // init RNG - without doing this explicitly it will use a seed of 1
+   // every time this is run
+   srandom(time(NULL));
 
    // generate the password
    for (i = 0; i < PASSLEN; i++)
