@@ -3,10 +3,10 @@
 Miscellaneous scripts and snippets.
 
 - basic-waveform-generator.py - Create Saw/Triangle/Square/Duty-cycle samples for chiptunes etc
+- bsdtar-backup.sh            - Home directory backup using BSDtar, with file exclusion and an option to show disk usage etc
 - chordprog.py                - Pseudorandom chord progression generator
 - dice.pl                     - Basic dice roller including special rules for Shadowrun, Alternity and Silhouette/Heavy Gear
-- dumps.pl                    - FreeBSD 6+ UFS2 Backup Script (deprecated by ZFS)
-- ffmpeg-down2x.sh            - Use FFMPEG CLI to reduce size of video file to half each axis
+- ffmpeg-down2x.sh            - Use FFMPEG to reduce video file by half each axis (about 30% file size)
 - logfx.py                    - Sound effects for log files
     - example.logfx.csv       - Example config for logfx.py
 - nvidia-rrd.pl               - Put Nvidia GPU temperature data into an RRD
